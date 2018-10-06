@@ -1,5 +1,5 @@
 FROM ubuntu:18.04
-ARG TAG=samba-4.8.1
+ARG TAG=samba-4.8.5
 
 RUN \
   DEBIAN_FRONTEND=noninteractive apt-get -y update && \
