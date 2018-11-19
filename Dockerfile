@@ -19,7 +19,6 @@ RUN \
   DEBIAN_FRONTEND=noninteractive apt-get -y autoremove && \
   DEBIAN_FRONTEND=noninteractive apt-get -y clean
 COPY init.sh /usr/bin/init.sh
-COPY timemachine.service /etc/avahi/services/timemachine.service
 RUN chmod 777 /usr/bin/init.sh
 
 CMD ["/usr/bin/init.sh"]
