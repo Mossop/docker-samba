@@ -12,8 +12,6 @@ Not much to install, it's just a docker container. You'll need to create a
 configuration directory with a `smb.conf` file in it. You should probably
 uninstall avahi-daemon and samba from your host.
 
-You should have a unix group named "nobody" on the host.
-
 ## Running
 
 A few things need to be set to make the server work. We use host networking
@@ -39,8 +37,31 @@ these accounts will be lost if the container is re-created.
 ## Time Machine
 
 The Samba in this container supports being configured as a destination for
-Time Machine. The configuration is a little tricky though. You might start
-here: https://www.reddit.com/r/homelab/comments/83vkaz/howto_make_time_machine_backups_on_a_samba/
+Time Machine.
 
-You may find you need to use `tmutil setdestination` to configure backups
-rather than using the UI.
+Register a backup destination in smb.conf with something like this:
+
+    [Time Machine]
+    	path = /mnt/backup/TimeMachine
+    	writeable = yes
+    	browseable = no
+    
+    	vfs objects = catia fruit streams_xattr
+    
+    	fruit:aapl = yes
+    	fruit:time machine = yes
+
+You should find your destination appear automatically in the Time Machine
+preferences.
+
+## Troubleshooting
+
+If none of the services seem to start in the container make sure your host
+(or whatever file you mount for `/etc/group` includes a group named
+`nobody`.
+
+If `avahi-daemon` is already running on the host then `avahi-daemon` will be
+unable to start in the container and auto-discovery of shares and Time
+Machine destinations will fail for other computers. You can still browse the
+server directly in this case and for Time Machine use `tmutil
+setdestination` to configure a backup destination.
