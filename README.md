@@ -12,6 +12,8 @@ Not much to install, it's just a docker container. You'll need to create a
 configuration directory with a `smb.conf` file in it. You should probably
 uninstall avahi-daemon and samba from your host.
 
+You should have a unix group named "nobody" on the host.
+
 ## Running
 
 A few things need to be set to make the server work. We use host networking
@@ -21,7 +23,7 @@ correctly. Then it is just a matter of mapping your configuration directory
 plus any directories you want to share.
 
     docker run --network host \
-               -v /etc/passwd:/etc/passwd -v /etc/group:/etc/group \
+               -v /etc/passwd:/etc/passwd:ro -v /etc/group:/etc/group:ro \
                -v <configdir>:/etc/samba \
                -v /mnt:/mnt -v /home:/home
 

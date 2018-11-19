@@ -1,6 +1,9 @@
 #! /bin/sh
 
-/usr/sbin/avahi-daemon -D
+net groupmap add sid=S-1-5-32-546 unixgroup=nobody type=builtin
+/etc/init.d/dbus start
+/etc/init.d/avahi-daemon start
+
 /usr/sbin/nmbd -D
 /usr/sbin/winbindd -D
 /usr/sbin/smbd -D
